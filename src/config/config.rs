@@ -259,7 +259,7 @@ impl<'a> ConfigBuilder<'a, ()> {
     /// If you want to use a decoder callback,
     /// use the `with_callback` function
     /// returns `Invalid` when buf is empty
-    pub fn new() -> ConfigBuilder<()> {
+    pub fn new() -> ConfigBuilder<'a, ()> {
         let mut cfg: pt_config = unsafe { mem::zeroed() };
         cfg.size  = mem::size_of::<pt_config>();
         ConfigBuilder::<()>(cfg, PhantomData)
