@@ -238,6 +238,16 @@ impl<'a, T> ConfigBuilder<'a, T> {
         self
     }
 
+    pub fn begin(&mut self, begin: *mut u8) -> &mut Self {
+        self.0.begin = begin;
+        self
+    }
+
+    pub fn end(&mut self, end: *mut u8) -> &mut Self {
+        self.0.end = end;
+        self
+    }
+
     /// turn itself into a new `Config`
     pub fn finish(&self) -> Config<'a, T> {
         Config(Cow::Owned(self.0), self.1)
@@ -249,15 +259,10 @@ impl<'a> ConfigBuilder<'a, ()> {
     /// If you want to use a decoder callback,
     /// use the `with_callback` function
     /// returns `Invalid` when buf is empty
-    pub fn new(buf: &'a mut [u8]) -> Result<ConfigBuilder<()>, PtError> {
-        if buf.len() < 1 { return Err(
-            PtError::new(PtErrorCode::Invalid, "buffer cant be empty!")
-        )}
+    pub fn new() -> ConfigBuilder<()> {
         let mut cfg: pt_config = unsafe { mem::zeroed() };
         cfg.size  = mem::size_of::<pt_config>();
-        cfg.begin = buf.as_mut_ptr();
-        cfg.end   = unsafe { buf.as_mut_ptr().offset(buf.len() as isize) };
-        Ok(ConfigBuilder::<()>(cfg, PhantomData))
+        ConfigBuilder::<()>(cfg, PhantomData)
     }
 }
 
