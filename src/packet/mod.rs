@@ -141,6 +141,19 @@ pub enum Packet<T> {
     Ptw(ptw::Ptw)
 }
 
+// if packet is ip, return true, else false
+impl<T> Packet<T> {
+    pub fn ip(&self) -> Option<u64> {
+        match self {
+            Self::Fup(fup) => Some(fup.fup()),
+            Packet::Tip(tip) => Some(tip.tip()),
+            Packet::TipPge(tippge) => Some(tippge.tippge()),
+            Packet::TipPgd(tippgd) => Some(tippgd.tippgd()),
+            _ => None,
+        }
+    }
+}
+
 impl<T> Debug for Packet<T> {
     fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
         match self {
