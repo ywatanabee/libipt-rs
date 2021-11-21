@@ -146,9 +146,19 @@ impl<T> Packet<T> {
     pub fn ip(&self) -> Option<u64> {
         match self {
             Self::Fup(fup) => Some(fup.fup()),
-            Packet::Tip(tip) => Some(tip.tip()),
-            Packet::TipPge(tippge) => Some(tippge.tippge()),
-            Packet::TipPgd(tippgd) => Some(tippgd.tippgd()),
+            Self::Tip(tip) => Some(tip.tip()),
+            Self::TipPge(tippge) => Some(tippge.tippge()),
+            Self::TipPgd(tippgd) => Some(tippgd.tippgd()),
+            _ => None,
+        }
+    }
+
+    pub fn compression(&self) -> Option<Compression> {
+        match self {
+            Self::Fup(fup) => Some(fup.compression()),
+            Self::Tip(tip) => Some(tip.compression()),
+            Self::TipPge(tippge) => Some(tippge.compression()),
+            Self::TipPgd(tippgd) => Some(tippgd.compression()),
             _ => None,
         }
     }
@@ -222,33 +232,5 @@ impl<T> From<pt_packet> for Packet<T> {
                 _ => unreachable!("invalid packet type")
             }
         }
-    }
-}
-
-pub trait GetCompression {
-    fn get_compresison(&self) -> Compression;
-}
-
-impl GetCompression for Tip {
-    fn get_compresison(&self) -> Compression {
-        self.compression()
-    }
-}
-
-impl GetCompression for Fup {
-    fn get_compresison(&self) -> Compression {
-        self.compression()
-    }
-}
-
-impl GetCompression for TipPge {
-    fn get_compresison(&self) -> Compression {
-        self.compression()
-    }
-}
-
-impl GetCompression for TipPgd{
-    fn get_compresison(&self) -> Compression {
-        self.compression()
     }
 }
