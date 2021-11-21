@@ -37,6 +37,10 @@ pub enum Compression {
     Full       = pt_ip_compression_pt_ipc_full
 }
 
+pub trait GetCompression {
+    fn get_compresison(&self) -> Compression;
+}
+
 /// A packet with IP payload.
 /// Packet: tip
 #[derive(Clone, Copy, Debug)]
@@ -66,6 +70,12 @@ impl Tip {
     #[inline]
     pub fn set_compression(&mut self, compression: Compression) {
         self.0.ipc = compression.into()
+    }
+}
+
+impl GetCompression for Tip{
+    fn get_compresison(&self) -> Compression {
+        self.compression()
     }
 }
 
@@ -101,6 +111,12 @@ impl Fup {
     }
 }
 
+impl GetCompression for Fup{
+    fn get_compresison(&self) -> Compression {
+        self.compression()
+    }
+}
+
 /// A packet with IP payload.
 /// Packet: tip.pge
 #[derive(Clone, Copy, Debug)]
@@ -133,6 +149,12 @@ impl TipPge {
     }
 }
 
+impl GetCompression for TipPge{
+    fn get_compresison(&self) -> Compression {
+        self.compression()
+    }
+}
+
 /// A packet with IP payload.
 /// Packet: tip.pgd
 #[derive(Clone, Copy, Debug)]
@@ -162,6 +184,12 @@ impl TipPgd {
     #[inline]
     pub fn set_compression(&mut self, compression: Compression) {
         self.0.ipc = compression.into()
+    }
+}
+
+impl GetCompression for TipPgd{
+    fn get_compresison(&self) -> Compression {
+        self.compression()
     }
 }
 
