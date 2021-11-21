@@ -49,7 +49,7 @@ pub use invalid::*;
 
 mod tnt;
 pub use tnt::*;
-mod ip;
+pub mod ip;
 pub use ip::*;
 mod mode;
 pub use mode::*;
