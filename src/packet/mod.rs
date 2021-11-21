@@ -49,7 +49,7 @@ pub use invalid::*;
 
 mod tnt;
 pub use tnt::*;
-pub mod ip;
+mod ip;
 pub use ip::*;
 mod mode;
 pub use mode::*;
@@ -222,5 +222,33 @@ impl<T> From<pt_packet> for Packet<T> {
                 _ => unreachable!("invalid packet type")
             }
         }
+    }
+}
+
+pub trait GetCompression {
+    fn get_compresison(&self) -> Compression;
+}
+
+impl GetCompression for Tip {
+    fn get_compresison(&self) -> Compression {
+        self.compression()
+    }
+}
+
+impl GetCompression for Fup {
+    fn get_compresison(&self) -> Compression {
+        self.compression()
+    }
+}
+
+impl GetCompression for TipPge {
+    fn get_compresison(&self) -> Compression {
+        self.compression()
+    }
+}
+
+impl GetCompression for TipPgd{
+    fn get_compresison(&self) -> Compression {
+        self.compression()
     }
 }
